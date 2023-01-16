@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="pressValid()">Valid</button>
+    <button onclick="pressInvalid()">Invalid</button>
+</body>
+
+</html>
+
+<script>
+    function pressValid() {
+        console.log("valid")
+        fetch("http://127.0.0.1:1235/valid")
+    }
+    
+    function pressInvalid() {
+        fetch("http://127.0.0.1:1235/invalid")
+        return
+    }
+</script>
