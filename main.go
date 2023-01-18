@@ -18,6 +18,7 @@ import (
 
 var currentAudioPath string
 var currentAudioName string
+
 func main() {
 	currentAudioName = ""
 	currentAudioPath = ""
@@ -56,16 +57,21 @@ func playWav(path string, file fs.FileInfo, err error) error {
 	if err != nil {
 		panic(err)
 	}
-	defer streamer.Close()
+
+	buffer := beep.NewBuffer(format)
+	buffer.Append(streamer)
+	streamer.Close()
 
 	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
 	color.Green("Playing audio...")
 	done := make(chan bool)
-	speaker.Play(beep.Seq(streamer, beep.Callback(func() {
+	audio := buffer.Streamer(0, buffer.Len())
+	speaker.Play(beep.Seq(audio, beep.Callback(func() {
 		done <- true
 	})))
 	<-done
 	color.Green("Fin.")
+	speaker.Close()
 	return nil
 }
 
