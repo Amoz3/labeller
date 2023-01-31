@@ -77,7 +77,7 @@ func playWav(path string, file fs.FileInfo, err error) error {
 
 func validate(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("Validating: " + currentAudioPath + currentAudioName)
-	err := os.Rename(currentAudioPath, fmt.Sprintf("./positive/%s_labelled", currentAudioName))
+	err := os.Rename(currentAudioPath, fmt.Sprintf("./positive/labelled_%s.wav", currentAudioName))
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusNotFound)
@@ -87,7 +87,7 @@ func validate(w http.ResponseWriter, req *http.Request) {
 
 func invalidate(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("Invalidating: " + currentAudioPath + currentAudioName)
-	err := os.Rename(currentAudioPath, fmt.Sprintf("./negative/%s_labelled", currentAudioName))
+	err := os.Rename(currentAudioPath, fmt.Sprintf("./negative/labelled_%s.wav", currentAudioName))
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusNotFound)
